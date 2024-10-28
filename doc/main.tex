@@ -8,8 +8,12 @@
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 \usepackage{csquotes}
+\usepackage{booktabs}  % Required for \toprule, \midrule, \bottomrule
+\usepackage{longtable} % Optional for long tables
+\usepackage{tabularx}
+\usepackage{adjustbox}
 \usepackage[ngerman]{babel}
-\addbibresource{./bib/lit.bib}
+%\addbibresource{./bib/lit.bib}
 
 
 
@@ -29,6 +33,7 @@
 \fancyhead{}
 \fancyfoot{}
 \graphicspath{ { ./images/} }
+
 
 % Title page
 \input{sections/titlepage.tex}
