@@ -1,0 +1,18 @@
+\section{Data accuisition}
+
+    The first step is to accuire the necessery data to train the model. For this project the voice data from the Mozilla Common Voice project is used. Since most of the data is fairly large it was decided to use one of the smaller datasets, atleast for prototyping and feature selection. For that reason the dataset Common Voice Delta Segment 16.1 was chosen. The dataset consists of roughly 1.7 GB of data. First let's take a look at the structure of the dataset. For this the Mozilla Common Voice dataset contains a tsv file containing the labels and the path to the audio files. 
+    \break
+    The dataset is structured as follows:
+    
+    \paragraph{}
+    [TODO: Add structure of dataset]
+
+    \paragraph{Data Filtering}
+    since not all of the data is needed for this project, the data is filtered to only contain the necessary data. For the case of the project, only the gender, age, the spoken sentence and the path to the audio file is kept. After a brief look at the data, it showed that some of the data is not labeled correctly. Some gender labels are missing. For this reason the data is filtered to only contain the data with the correct labels.
+
+    \begin{table}[h!]
+        \begin{adjustbox}{max width=\textwidth}
+        \input{tables/features.tex}  % Imports the LaTeX table from the file
+        \end{adjustbox}
+        \caption{Table of filtered features}
+    \end{table}
