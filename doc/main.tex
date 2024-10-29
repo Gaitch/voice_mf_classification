@@ -1,4 +1,6 @@
 \documentclass[12pt, letterpaper]{article}
+\usepackage[ngerman]{babel}
+\usepackage{fontspec}
 \usepackage{graphicx}
 \usepackage{glossaries}
 \usepackage{biblatex}
@@ -12,7 +14,10 @@
 \usepackage{longtable} % Optional for long tables
 \usepackage{tabularx}
 \usepackage{adjustbox}
-\usepackage[ngerman]{babel}
+
+\newfontfamily\iosevka{Iosevka Nerd Font}  % Adjust name as needed
+
+
 %\addbibresource{./bib/lit.bib}
 
 
@@ -69,7 +74,7 @@
 \input{sections/dataAccuisition.tex}
 \pagebreak
 
-% \input{sections/methodik.tex}
+\input{sections/feature_extraction.tex}
 \pagebreak
 
 % \input{sections/auswertung.tex}
