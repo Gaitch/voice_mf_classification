@@ -32,3 +32,13 @@
 
     \paragraph{Data Balancing}
     After the necessary features are selected it should be checked if the data is balanced. This means the data should contain the same amount of data for each label. In the case of this project, this means the data should contain the same amount of clipes spoken by male and female subjects. If the data is not balanced, the model could be biased towards the majority class. In this case the data is balanced by removing the excess data from the majority class.
+
+    \begin{figure}[h] % 'h' option places the figure approximately here
+        \centering % Center the image
+	    \includegraphics[width=0.5\textwidth]{images/gender_features.png}
+        \caption{distribution of the gender data} % Optional caption
+        \label{fig:gender_distribution} % Optional label for referencing
+    \end{figure}
+
+
+    In this case the gender distribution is with XXX male and XXX female almost 0.5. This should be good enough for the deep learning model to learn without any complication. In case of insufficient results this topic will get reevaluated. Another issue is, that there is a third categorie "others". This label does obviously not provide any useful information which would allow for any performance benefits. For that reason this data has to get discared aswell.
