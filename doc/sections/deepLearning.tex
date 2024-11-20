@@ -1,13 +1,43 @@
 \section{Deep Learning}
- 
-
-\paragraph{Waveform}
+ Now that the data is properly prepared it is time to take care of the deep learning part. For this a model must be constructed that can be trained on the data. As a first it was tried to come up with a new model. This turned out to be a difficult task. The model that was constructed was not able to learn the data. Therefore it was decided to train model structures that are known. This contains of a Convolutional network, pooling layer and fully connected network as in figure~\ref{fig:neuralNetwork} visualized.  
 
 
 \begin{figure}[h] % 'h' option places the figure approximately here
     \centering % Center the image
-    \includegraphics[width=0.8\textwidth]{images/audio_signal.png}
-    \caption{Visualization of the audio waveform} % Optional caption
-    \label{fig:audiosignal} % Optional label for referencing
+    \includegraphics[width=0.8\textwidth]{images/output.png}
+    \caption{Structure of the Neural Network} % Optional caption
+    \label{fig:neuralNetwork} % Optional label for referencing
 \end{figure}
+
+\paragraph{Loss function}
+For this application the cross entropy loss function was chosen. This loss function seems to work great for classification problems, especially for those with two classes. The cross entropy loss function is defined as follows:
+\begin{equation}
+    L(y, \hat{y}) = -\sum_{i} y_i \log(\hat{y}_i)
+\end{equation}
+
+
+\paragraph{Optimizer}
+The optimizer the key component of the neural network. It is the optimizer that will adjust the weights of the neural network in order to minimize the loss function. For this application the Adam optimizer was chosen. Adam stands for Adaptive Moment Estimation and combines momentum and RMSprop. This leads to an efficient optimizer that is able to converge quickly. The Adam optimizer is defined as follows:
+
+\begin{equation}
+    \theta_{t+1} = \theta_t - \frac{\alpha}{\sqrt{v_t} + \epsilon} m_t
+\end{equation}
+
+
+\paragraph{Convolutional Neural Network}
+The Convolutional Neural Network (CNN) is a type of neural network that is able to learn spatial hierarchies. This is done by applying a convolutional layer to the input data. This is used for the feature extraction. I this application the CNN consists of 3 convolutional layers. The first layer has 32 filters, the second layer has 48 filters and the third layer has 128 filters. The convolutional layers are followed by a ReLU activation function.
+
+\paragraph{Pooling Layer}
+The pooling layer is used to reduce the spatial dimensions of the input data. This is done by applying a pooling operation to the input data. In this application the pooling layer is a max pooling layer. 
+
+\paragraph{Fully Connected Layer}
+The fully connected layer is used to connect the output of the convolutional and pooling layers to the output layer. This is done by flattening the output of the convolutional and pooling layers and connecting it to the output layer. In this application the fully connected layer consists of 2 layers. The first layer has 128 neurons and the second layer has 2 neurons. The fully connected layers are followed by a ReLU activation function.
+
+\paragraph{Output Layer}
+The output layer is the final layer of the neural network. It is used to output the prediction of the neural network. In this application the output layer consists of 2 neurons. The output layer is followed by a softmax activation function.
+
+
+
+
+
 
