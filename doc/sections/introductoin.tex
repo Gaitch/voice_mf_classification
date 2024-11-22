@@ -1,0 +1,11 @@
+\section{Introduction}
+
+Classifying gender from voice recordings is a valuable task in machine learning, with applications in speech recognition, accessibility, and personalization. This project explores using deep learning, specifically Convolutional Neural Networks (CNNs), to classify audio clips by gender.
+
+\paragraph{} The dataset used is Mozilla's Common Voice Dataset, a large collection of annotated voice samples (see Chapter~\ref{sec:dataset}). These recordings are transformed into Mel spectrograms, a time-frequency representation that captures key speech patterns, making them suitable for input to the CNN model (details in Chapter~\ref{sec:processing}).
+
+\paragraph{} The goal is to develop a reliable model by preprocessing data, balancing classes to reduce bias, and experimenting with architectures and regularization techniques to prevent overfitting. The model's performance is evaluated using metrics such as accuracy, precision, recall, and F1 score (see Chapter~\ref{sec:results}).
+
+\paragraph{} This project highlights the potential of CNNs for audio classification while addressing challenges like imbalanced data and overfitting (discussed in Chapter~\ref{sec:improvements}). Key lessons about data preparation and model optimization are shared, alongside the high-level challenges faced during development (Chapter~\ref{sec:challanges}).
+
+\begin{figure}[h] \centering \includegraphics[width=0.8\textwidth]{images/blockdiagram.png} \caption{Overview of the dataflow} \label{fig:dataflow} \end{figure}

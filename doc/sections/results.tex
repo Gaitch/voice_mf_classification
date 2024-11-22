@@ -1,0 +1,37 @@
+\section{Results}
+\label{sec:results}
+This section presents the outcomes of training and evaluating the model. The performance of the model was monitored during training and validated using key metrics such as accuracy, precision, recall, and F1 score.
+
+\subsection{Training and Validation Progress}
+The model was trained over ten epochs, with a validation run conducted after every 256 training samples to assess its learning progress. Figure~\ref{fig:loss_val} shows the comparison of training and validation losses during the training process. Both losses exhibit a steady decline and begin to converge after approximately two epochs, demonstrating the model's ability to learn from the data.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/loss_val.png}
+    \caption{Comparison of Training vs. Validation Loss}
+    \label{fig:loss_val}
+\end{figure}
+
+This convergence suggests that the model is effectively minimizing error on both training and validation sets, with no immediate signs of overfitting during the initial epochs.
+
+\subsection{Performance on Unseen Data}
+To evaluate the model's generalization to unseen data, a testing routine was executed after each epoch. This routine calculated metrics such as accuracy, precision, recall, and F1 score. The evolution of these metrics across epochs is illustrated in Figure~\ref{fig:metrics}. 
+
+The results indicate steady improvements during the initial epochs, with the metrics peaking at the fifth epoch. After this, a slight decline was observed, followed by a gradual upward trend. Further training might confirm whether these metrics would surpass their earlier peak.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/metrics.png}
+    \caption{Performance Metrics Over Epochs}
+    \label{fig:metrics}
+\end{figure}
+
+The model from the fifth epoch demonstrated the best performance and was saved for further analysis. Its metrics are summarized below:
+\begin{itemize}
+    \item \textbf{Accuracy:} 95.97\%
+    \item \textbf{Precision:} 96.43\%
+    \item \textbf{Recall:} 93.10\%
+    \item \textbf{F1 Score:} 94.74\%
+\end{itemize}
+
+These results validate the model's capability to accurately classify the gender of voices. However, there is room for further improvement, particularly in ensuring consistent generalization and robustness across diverse datasets.

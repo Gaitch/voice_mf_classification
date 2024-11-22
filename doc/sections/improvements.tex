@@ -1,0 +1,29 @@
+\section{Improvements}
+\label{sec:improvements}
+To enhance the performance and robustness of the model, several optimizations are proposed, categorized into three key areas: training efficiency, data processing, and algorithm design. This is only gonna show potential improvements, which except of the dropout stages have not been implemented.
+
+\subsection{Training Efficiency}
+Optimizing the training process can significantly reduce computation time and resource utilization while improving model convergence. Key strategies include:
+
+\paragraph{Dimensions:} Reducing the dimensionality of input data can streamline computation. This involves techniques such as feature selection, dimensionality reduction methods (e.g., PCA), or resizing spectrograms to a smaller, consistent size.
+
+\paragraph{Data-loader:}Leveraging a data loader ensures efficient data retrieval during training. It enables loading data in batches, shuffling for randomness, and multiprocessing for faster loading.
+
+\paragraph{Pin Memory:}Activating pinned memory can accelerate data transfer between the CPU and GPU, thereby improving training speed, especially in GPU-accelerated environments.
+
+
+\subsection{Data Processing}
+Improving the quality and diversity of input data helps enhance the model’s ability to generalize. Proposed strategies include:
+
+\paragraph{Features:} Incorporating additional features beyond the standard spectrogram, such as MFCCs (Mel-frequency cepstral coefficients), spectral contrast, or zero-crossing rate, can provide richer information about the audio signal.
+\paragraph{Chroma STFT:} Adding chroma-based features from the Short-Time Fourier Transform (STFT) can capture pitch and harmonic content, which is particularly useful for tasks involving audio analysis.
+
+\paragraph{Add Noise:} Introducing noise to the training data (data augmentation) helps the model learn to handle real-world imperfections, increasing its robustness against unseen noisy data during inference.
+
+
+\subsection{Algorithm Design}
+Refining the algorithm itself can further improve model performance and prevent overfitting. Suggested improvements include:
+
+\paragraph{Dropout Stages:} Adding dropout layers during training can reduce overfitting by randomly dropping a fraction of neurons, forcing the model to learn more generalizable patterns.
+
+\paragraph{Early Stopping:} Implementing early stopping monitors the validation loss during training and halts the process when the performance plateaus or degrades. This prevents overtraining and saves computational resources.

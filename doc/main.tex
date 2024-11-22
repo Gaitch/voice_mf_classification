@@ -15,12 +15,9 @@
 \usepackage{tabularx}
 \usepackage{adjustbox}
 
+
+\addbibresource{./bib/lit.bib}
 \newfontfamily\iosevka{Iosevka Nerd Font}  % Adjust name as needed
-
-
-%\addbibresource{./bib/lit.bib}
-
-
 
 \providecommand{\keywords}[1]
 {
@@ -45,7 +42,7 @@
 \pagebreak
 
 % Abstract
-% \input{sections/abstract.tex}
+\input{sections/abstract.tex}
 \pagebreak
 
 % Table of contents
@@ -67,8 +64,10 @@
 % \pagestyle{plain}
 
 % -------- Sections --------
-% \input{sections/einleitung.tex}
 \setcounter{page}{1}
+\pagebreak
+
+\input{sections/introductoin.tex}
 \pagebreak
 
 \input{sections/dataAccuisition.tex}
@@ -80,6 +79,15 @@
 \input{sections/deepLearning.tex}
 \pagebreak
 
-% \printbibliography
+\input{sections/results.tex}
+\pagebreak
+
+\input{sections/improvements.tex}
+\pagebreak
+
+\input{sections/challanges.tex}
+\pagebreak
+
+\printbibliography
 \end{document}
 

@@ -1,62 +1,68 @@
 \section{Signal Processing}
-This chapter will cover the signal processing part of the project. The goal of this part is to extract features from the audio signal that can be used to train a machine learning model. 
+\label{sec:processing}
 
-\paragraph{Waveform}
-The first step in feature extraction is to look at the data. Before starting to do any signal processing, it is a good idea to look at data itself to identify good approaches to extract features. The audio files are stored as mp3 files. The length for each audio differs from around four to ten seconds and are sampled with 32kHz. To check the data, the audio files are loaded and played back. Also a plot can be helpful to see check if there are any abnormalities in the data like clipping or noise.
+This chapter outlines the signal processing techniques applied in this project. The primary objective is to extract meaningful features from audio signals to train a machine learning model effectively.
 
-\begin{figure}[h] % 'h' option places the figure approximately here
-    \centering % Center the image
+\subsection{Waveform}
+The first step in feature extraction is analyzing the raw audio data. Before applying any signal processing, it is essential to inspect the data visually and audibly to identify abnormalities and determine suitable feature extraction strategies. The audio files are stored in MP3 format, with durations ranging from approximately four to ten seconds, sampled at 32 kHz. Playing back the audio files and visualizing their waveforms helps detect issues such as clipping or excessive noise.
+
+\begin{figure}[h]
+    \centering
     \includegraphics[width=0.8\textwidth]{images/audio_signal.png}
-    \caption{Visualization of the audio waveform} % Optional caption
-    \label{fig:audiosignal} % Optional label for referencing
+    \caption{Visualization of the audio waveform.}
+    \label{fig:audiosignal}
 \end{figure}
 
-On first sight the waveform of the audio signal in \ref{fig:audiosignal} looks decent. There is no clipping and the signal is not too noisy. To validate if all the audio files are are without any abnormalities, all the files would need to be inspected or a statistical analysis could be done. Since this is not the focus of this project, it is assumed that the data is clean. What can be done though is to remove silent parts of the audio signal. This can be done by setting a threshold and remove all the parts of the audio signal that are below this threshold. In this case the threshold is set to 30 db. The audio signal is then trimmed to only contain the parts that are above the threshold. The trimmed audio file is shown in figure~\ref{fig:audiosignaltrimmed}.
+Figure~\ref{fig:audiosignal} shows a typical audio waveform. The signal appears clean, without any visible clipping or excessive noise. While inspecting all audio files for abnormalities or conducting a statistical analysis would ensure data quality, this is beyond the scope of the project. Instead, it is assumed that the dataset is generally clean. However, silent segments of the audio are trimmed by applying a threshold of 30 dB, resulting in a cleaner signal shown in Figure~\ref{fig:audiosignaltrimmed}.
 
-\begin{figure}[h] % 'h' option places the figure approximately here
-    \centering % Center the image
+\begin{figure}[h]
+    \centering
     \includegraphics[width=0.8\textwidth]{images/audio_signal_trimmed.png}
-    \caption{Visualization of the trimmed audio waveform} % Optional caption
-    \label{fig:audiosignaltrimmed} % Optional label for referencing
+    \caption{Visualization of the trimmed audio waveform.}
+    \label{fig:audiosignaltrimmed}
 \end{figure}
 
-\paragraph{Spectrogram}
-The waveform itself is not really useful do determine the gender from its data. To extract features from the audio signal, the signal is transformed into a spectrogram. A spectrogram is a visual representation of the spectrum of frequencies of a signal as it varies with time. It is a two-dimensional plot of the power spectral density of a signal. The spectrogram is calculated by taking the short-time Fourier transform of the signal. The signal is divided into small frames and the Fourier transform is calculated for each frame. The result is a matrix where the x-axis represents the time and the y-axis represents the frequency. The color represents the power of the signal at that frequency and time. The spectrogram of the audio signal is shown in figure~\ref{fig:spectrogram}.
+\subsection{Spectrogram}
+Raw waveforms are not directly suitable for gender classification. Therefore, the audio signals are transformed into spectrograms, which provide a visual representation of frequency content over time. Spectrograms are generated using the Short-Time Fourier Transform (STFT). This produces a two-dimensional matrix where the x-axis represents time, the y-axis represents frequency, and the color intensity represents the power of the signal at each time and frequency.
 
-\begin{figure}[h] % 'h' option places the figure approximately here
-    \centering % Center the image
+\begin{figure}[h]
+    \centering
     \includegraphics[width=0.8\textwidth]{images/spectrogram.png}
-    \caption{Visualization of the trimmed audio waveform} % Optional caption
-    \label{fig:spectrogram} % Optional label for referencing
+    \caption{Visualization of the spectrogram.}
+    \label{fig:spectrogram}
 \end{figure}
 
-The spectrogram is calculated as:
+The spectrogram is computed as:
 \[
 X[n, k] = \sum_{m=0}^{M-1} x[m] \cdot w[m-n] \cdot e^{-j2\pi km/M}
 \]
 where \(x[m]\) is the signal, \(w[m-n]\) is the window function, and \(M\) is the frame length.
 
+\subsection{Mel-Spectrogram}
+To better capture human auditory perception, the spectrogram is transformed into a mel-spectrogram. The mel scale is a perceptual frequency scale that closely aligns with how humans perceive sound. A mel filter bank is applied to the spectrogram, producing a two-dimensional matrix where the x-axis represents time and the y-axis represents mel frequencies.
 
-\paragraph{Mel-spectrogram}
-The mel-spectrogram is a spectrogram where the frequencies are converted to the mel scale. The mel scale is a perceptual scale of pitches that is based on the human ear. The mel scale is logarithmic and is used to mimic the human perception of sound. The mel-spectrogram is calculated by applying a mel filterbank to the spectrogram. The mel filterbank is a set of triangular filters that are applied to the spectrogram. The result is a matrix where the x-axis represents the time and the y-axis represents the mel frequency. The mel-spectrogram of the audio signal is shown in figure~\ref{fig:mel-spectrogram}.
+\[
+S_{\text{mel}}[m, n] = \sum_{k=1}^{K} H[m, k] \cdot |S[k, n]|^2
+\]
+where:
+\begin{align*}
+S[k, n] & = \text{Short-Time Fourier Transform (STFT) of the signal} \\
+H[m, k] & = \text{mel filter bank with } m \text{ filters and } k \text{ frequency bins.}
+\end{align*}
 
-\begin{figure}[h] % 'h' option places the figure approximately here
-    \centering % Center the image
+\begin{figure}[h]
+    \centering
     \includegraphics[width=0.8\textwidth]{images/mel-spectrogram.png}
-    \caption{Visualization of the Mel-Spectrogram} % Optional caption
-    \label{fig:mel-spectrogram} % Optional label for referencing
+    \caption{Visualization of the mel-spectrogram.}
+    \label{fig:mel-spectrogram}
 \end{figure}
 
-\paragraph{Resizing}
-The mel-spectrogram is a two-dimensional matrix. To use this data as input for a machine learning model, the data needs to be resized to a fixed size. The mel-spectrogram is resized to a size of 64x64 pixels. this reduces the complexity of the data which should make training less intensive. This is done by using the bilinear interpolation method. The resized mel-spectrogram is shown in figure~\ref{fig:resized-mel-spectrogram}.
+\subsection{Resizing}
+The mel-spectrogram must be resized to a fixed dimension for input into the machine learning model. This project uses bilinear interpolation to resize the mel-spectrogram to \(64 \times 64\) pixels. Resizing reduces the input data's complexity, facilitating efficient model training. The resized mel-spectrogram is shown in Figure~\ref{fig:resized-mel-spectrogram}.
 
-\begin{figure}[h] % 'h' option places the figure approximately here
-    \centering % Center the image
+\begin{figure}[h]
+    \centering
     \includegraphics[width=0.8\textwidth]{images/dataset_samples.png}
-    \caption{Visualization of the Mel-Spectrogram} % Optional caption
-    \label{fig:resized-mel-spectrogram} % Optional label for referencing
+    \caption{Visualization of the resized mel-spectrogram.}
+    \label{fig:resized-mel-spectrogram}
 \end{figure}
-
-
-
-

@@ -1,44 +1,53 @@
-\section{Data accuisition}
+\section{Data Acquisition}
+\label{sec:dataset}
 
-    The first step is to accuire the necessery data to train the model. For this project the voice data from the Mozilla Common Voice project is used. Since most of the data is fairly large it was decided to use one of the smaller datasets, atleast for prototyping and feature selection. For that reason the dataset Common Voice Delta Segment 16.1 was chosen. The dataset consists of roughly 1.7 GB of data. First let's take a look at the structure of the dataset. For this the Mozilla Common Voice dataset contains a tsv file containing the labels and the path to the audio files. 
-    \break
-    The dataset is structured as follows:
-    
-    {\iosevka
-    \begin{verbatim}
-    data
-    |-- cv-corpus-16.1-delta-2023-12-06
-        |-- en
-            |-- clip_durations.tsv
-            |-- clips (folder)
-                |-- ...
-                |-- ...
-            |-- invalidated.tsv
-            |-- other.tsv
-            |-- reported.tsv
-            |-- validated.tsv
-    \end{verbatim}
-    }
+The first step is to acquire the necessary data to train the model. For this project, voice data from the Mozilla Common Voice project is used. Since the dataset is quite large, one of the smaller subsets was chosen for prototyping and feature selection. Specifically, the Common Voice Delta Segment 16.1 dataset, which is approximately 1.7 GB, was selected. 
 
-    \paragraph{Data Filtering}
-    since not all of the data is needed for this project, the data is filtered to only contain the necessary data. For the case of the project, only the gender, age, the spoken sentence and the path to the audio file is kept. After a brief look at the data, it showed that some of the data is not labeled correctly. Some gender labels are missing. For this reason the data is filtered to only contain the data with the correct labels.
-
-    \begin{table}[h!]
-        \begin{adjustbox}{max width=\textwidth}
-        \input{tables/features.tex}  % Imports the LaTeX table from the file
-        \end{adjustbox}
-        \caption{Table of filtered features}
-    \end{table}
-
-    \paragraph{Data Balancing}
-    After the necessary features are selected it should be checked if the data is balanced. This means the data should contain the same amount of data for each label. In the case of this project, this means the data should contain the same amount of clipes spoken by male and female subjects. If the data is not balanced, the model could be biased towards the majority class. In this case the data is balanced by removing the excess data from the majority class.
-
-    \begin{figure}[h] % 'h' option places the figure approximately here
-        \centering % Center the image
-	    \includegraphics[width=0.5\textwidth]{images/gender_features.png}
-        \caption{distribution of the gender data} % Optional caption
-        \label{fig:gender_distribution} % Optional label for referencing
-    \end{figure}
+\subsection{Structure}
+The Mozilla Common Voice dataset includes a TSV file containing labels and the paths to audio files. The dataset structure is as follows:
 
 
-    In this case the gender distribution is with XXX male and XXX female almost 0.5. This should be good enough for the deep learning model to learn without any complication. In case of insufficient results this topic will get reevaluated. Another issue is, that there is a third categorie "others". This label does obviously not provide any useful information which would allow for any performance benefits. For that reason this data has to get discared aswell.
+{\iosevka
+\begin{verbatim}
+data
+|-- cv-corpus-16.1-delta-2023-12-06
+|-- en
+    |-- clip_durations.tsv
+    |-- clips (folder)
+        |-- ...
+        |-- ...
+    |-- invalidated.tsv
+    |-- other.tsv
+    |-- reported.tsv
+    |-- validated.tsv
+\end{verbatim}
+}
+
+
+
+\subsection{Filtering}
+Not all data in the dataset is required for this project. Filtering is applied to retain only the necessary features: gender, age, the spoken sentence, and the audio file path. Additionally, some data entries were found to have missing or incorrect labels. Therefore, the data is further filtered to exclude entries with incomplete or incorrect labels. The filtered features are shown in Table~\ref{tab:filtered_features}.
+
+
+\begin{table}[h]
+    \centering % Centers the table
+    \begin{adjustbox}{max width=\textwidth}
+        \input{tables/features.tex}  % Imports the LaTeX table from an external file
+    \end{adjustbox}
+    \caption{Table of filtered features}
+    \label{tab:filtered_features}
+\end{table}
+
+
+\subsection{Balancing}
+Once the features are filtered, the dataset is checked for balance across labels. In this project, balance means an equal distribution of male and female samples. An imbalanced dataset could cause the model to be biased toward the majority class. If necessary, the excess data from the majority class is removed to achieve balance.
+
+\paragraph{}
+In this case, the gender distribution is 1528 male and 1498 female samples, which is nearly balanced (close to a 50:50 ratio). This distribution is sufficient for the deep learning model to learn effectively. However, there is a third category, "other," which has only 50 samples. This label does not provide useful information for this task and is excluded. These samples could, however, be utilized later for unseen data testing with human validation.
+
+\begin{figure}[h] % 'h' option places the figure approximately here
+    \centering % Center the image
+    \includegraphics[width=0.8\textwidth]{images/gender_features.png}
+    \caption{Distribution of the gender data} % Optional caption
+    \label{fig:gender_distribution} % Optional label for referencing
+\end{figure}

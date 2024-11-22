@@ -1,43 +1,90 @@
 \section{Deep Learning}
- Now that the data is properly prepared it is time to take care of the deep learning part. For this a model must be constructed that can be trained on the data. As a first it was tried to come up with a new model. This turned out to be a difficult task. The model that was constructed was not able to learn the data. Therefore it was decided to train model structures that are known. This contains of a Convolutional network, pooling layer and fully connected network as in figure~\ref{fig:neuralNetwork} visualized.  
+\label{sec:deepLearning}
 
+With the data properly prepared, the next step involves designing and training a deep learning model capable of classifying audio samples based on gender. The model used in this project is a Convolutional Neural Network (CNN), which combines convolutional layers, pooling layers, and fully connected layers for feature extraction and classification. The architecture of the model is visualized in Figure~\ref{fig:neuralNetwork}.
 
-\begin{figure}[h] % 'h' option places the figure approximately here
-    \centering % Center the image
+\begin{figure}[h]
+    \centering
     \includegraphics[width=0.8\textwidth]{images/output.png}
-    \caption{Structure of the Neural Network} % Optional caption
-    \label{fig:neuralNetwork} % Optional label for referencing
+    \caption{Structure of the Neural Network}
+    \label{fig:neuralNetwork}
 \end{figure}
 
-\paragraph{Loss function}
-For this application the cross entropy loss function was chosen. This loss function seems to work great for classification problems, especially for those with two classes. The cross entropy loss function is defined as follows:
+\subsection{Hyperparameters}
+
+\paragraph{Loss Function}
+For binary classification, the Cross Entropy Loss function is employed. This loss function is well-suited for classification tasks and directly integrates softmax activation, simplifying implementation in PyTorch. The Cross Entropy Loss is defined as:
 \begin{equation}
     L(y, \hat{y}) = -\sum_{i} y_i \log(\hat{y}_i)
 \end{equation}
-
+where \(y_i\) is the true label and \(\hat{y}_i\) is the predicted probability for class \(i\).
 
 \paragraph{Optimizer}
-The optimizer the key component of the neural network. It is the optimizer that will adjust the weights of the neural network in order to minimize the loss function. For this application the Adam optimizer was chosen. Adam stands for Adaptive Moment Estimation and combines momentum and RMSprop. This leads to an efficient optimizer that is able to converge quickly. The Adam optimizer is defined as follows:
-
+The model uses the Adam optimizer, a widely adopted method that combines the benefits of momentum and RMSprop optimizers. Adam is efficient, handles sparse gradients, and adapts the learning rate for each parameter. The update rule for Adam is:
 \begin{equation}
     \theta_{t+1} = \theta_t - \frac{\alpha}{\sqrt{v_t} + \epsilon} m_t
 \end{equation}
+where \(m_t\) and \(v_t\) are the first and second moment estimates of gradients, \(\alpha\) is the learning rate, and \(\epsilon\) is a small constant to prevent division by zero. The learning rate is set to 0.001, with default values for \(\beta_1 = 0.9\) and \(\beta_2 = 0.999\).
 
+\paragraph{Additional Hyperparameters}
+Other hyperparameters include:
+\begin{itemize}
+    \item \textbf{Batch Size:} 256 samples per batch.
+    \item \textbf{Epochs:} 10 iterations through the training dataset.
+    \item \textbf{Regularization:} Dropout is applied at a rate of 25\% after convolutional and fully connected layers.
+\end{itemize}
 
-\paragraph{Convolutional Neural Network}
-The Convolutional Neural Network (CNN) is a type of neural network that is able to learn spatial hierarchies. This is done by applying a convolutional layer to the input data. This is used for the feature extraction. I this application the CNN consists of 3 convolutional layers. The first layer has 32 filters, the second layer has 48 filters and the third layer has 128 filters. The convolutional layers are followed by a ReLU activation function.
+\subsection{Model Architecture}
+The CNN architecture is designed to extract spatial and temporal features from Mel-spectrograms, enabling effective gender classification. The model structered was suggested by a research paper \cite{src}. The components of the architecture are described below:
 
-\paragraph{Pooling Layer}
-The pooling layer is used to reduce the spatial dimensions of the input data. This is done by applying a pooling operation to the input data. In this application the pooling layer is a max pooling layer. 
+\paragraph{Convolutional Layers}
+Three convolutional layers are used for feature extraction, each followed by a ReLU activation function to introduce non-linearity:
+\begin{itemize}
+    \item \textbf{Layer 1:} 32 filters with a $3 \times 3$ kernel, stride 1, and padding 1.
+    \item \textbf{Layer 2:} 48 filters with a $3 \times 3$ kernel, stride 1, and padding 1.
+    \item \textbf{Layer 3:} 120 filters with a $3 \times 3$ kernel, stride 1, and padding 1.
+\end{itemize}
 
-\paragraph{Fully Connected Layer}
-The fully connected layer is used to connect the output of the convolutional and pooling layers to the output layer. This is done by flattening the output of the convolutional and pooling layers and connecting it to the output layer. In this application the fully connected layer consists of 2 layers. The first layer has 128 neurons and the second layer has 2 neurons. The fully connected layers are followed by a ReLU activation function.
+Dropout is applied with a rate of 25\% after each convolutional block to prevent overfitting.
+
+\paragraph{Pooling Layers}
+Max pooling layers with a $2 \times 2$ kernel and a stride of 2 are used after each convolutional block. These layers reduce the spatial dimensions of the input data, helping the model generalize by discarding less relevant details.
+
+\paragraph{Fully Connected Layers}
+After flattening the output of the final convolutional block, the data is passed through two fully connected layers:
+\begin{itemize}
+    \item \textbf{Layer 1:} 128 neurons.
+    \item \textbf{Layer 2:} 64 neurons.
+\end{itemize}
+
+Dropout with a rate of 25\% is also applied between these layers to reduce overfitting. ReLU activation functions are applied after each layer.
 
 \paragraph{Output Layer}
-The output layer is the final layer of the neural network. It is used to output the prediction of the neural network. In this application the output layer consists of 2 neurons. The output layer is followed by a softmax activation function.
+The output layer contains 2 neurons corresponding to the binary classification of male or female. The final predictions are made using softmax activation, which converts logits into probabilities for each class.
 
+\subsection{Training Strategy}
+The model is trained using the Adam optimizer with the following strategies:
+\begin{itemize}
+    \item \textbf{Learning Rate Scheduling:} The learning rate remains constant at 0.001 throughout training.
+    \item \textbf{Validation Checks:} The model is evaluated on the validation set after every batch to monitor performance and detect overfitting.
+\end{itemize}
 
+\subsection{Evaluation Metrics}
+To assess the model's performance, the following metrics are used:
+\begin{itemize}
+    \item \textbf{Accuracy:} Measures the overall percentage of correct predictions.
+    \item \textbf{Precision:} Evaluates the proportion of correctly identified positive predictions out of all positive predictions.
+    \item \textbf{Recall:} Assesses the proportion of actual positives correctly identified by the model.
+    \item \textbf{F1 Score:} Provides a harmonic mean of precision and recall, offering a balanced measure.
+\end{itemize}
 
+These metrics are calculated on the validation and test datasets after each epoch. TensorBoard is used to visualize the training and validation loss alongside these metrics, enabling a clear understanding of the model's learning progress.
 
+\subsection{Regularization and Overfitting Mitigation}
+To address overfitting, the following techniques are employed:
+\begin{itemize}
+    \item \textbf{Dropout:} Applied at a rate of 25\% after convolutional and fully connected layers.
+    \item \textbf{Balanced Dataset:} Ensuring an equal representation of male and female samples reduces bias.
+\end{itemize}
 
-
+This architecture and training methodology provide a robust foundation for the gender classification task, balancing computational efficiency and model accuracy.
